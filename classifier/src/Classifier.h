@@ -6,24 +6,28 @@
 #define CLASSIFIER_CLASSIFIER_H
 
 #include <string>
+#include <opencv2/core/mat.hpp>
+#include <unordered_map>
+#include <opencv/cv.hpp>
 #include "CSVParser.h"
 
-int sign_label_to_id(std::string label);
-std::string sign_id_to_string(int id);
-
-struct Sign {
-    int id;
-
+struct SignData {
+    cv::Rect bbox;
+    std::string label;
+    std::string additional_info;
 };
 
-class Classifier {
+class Detector {
 public:
-    Classifier(const std::string &filename);
-    void learn(int iterations_num);
-
+    Detector(const std::string &xml);
+    std::vector<SignData> find_signs(const cv::Mat &img);
+    void find_sift(const cv::Mat &img);
 private:
-    std::map<std::string, std::vector<BoundingBox> > train_data;
+    cv::CascadeClassifier cc;
+    std::unordered_map<std::string, cv::Mat> references;
 };
+
+
 
 
 #endif //CLASSIFIER_CLASSIFIER_H

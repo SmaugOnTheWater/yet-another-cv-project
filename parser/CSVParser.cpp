@@ -12,7 +12,6 @@ map<string, vector<BoundingBox> > parseCSV(string path)
 	map<string, vector<BoundingBox> > result;
 
 	getline(input, line);
-
 	while (getline(input, line, ','))
 	{
 		vector<BoundingBox> &list = result[line];
